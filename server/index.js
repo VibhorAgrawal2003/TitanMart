@@ -5,6 +5,7 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import { initSupabase } from "./supabaseClient.js";
+import authRoutes from "./routes/authRoutes.js";
 
 // configuration
 dotenv.config();
@@ -30,6 +31,8 @@ const supabaseKey = process.env.SUPABASE_KEY;
 initSupabase(supabaseUrl, supabaseKey);
 
 // setting routes
+app.use("/auth", authRoutes);
+
 app.get("/", (_req, res) => {
   res.render("home");
 });
