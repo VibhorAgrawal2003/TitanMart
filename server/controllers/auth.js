@@ -31,8 +31,6 @@ export const signup = async (req, res) => {
     const supabase = getSupabase();
     const { username, password, email, phone, address } = req.body;
 
-    console.log(username, password, email, phone, address);
-
     // Validate the request body
     if (!email || !password || !username) {
       return res
