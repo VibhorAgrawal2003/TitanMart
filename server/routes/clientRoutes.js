@@ -1,5 +1,5 @@
 import express from "express";
-import { getPicture, getAdmin } from "../controllers/users.js";
+import { getPicture, getAdmin, getUser } from "../controllers/users.js";
 import { addProduct, getProducts, getProductsByCategory } from "../controllers/products.js";
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.get("/products", getProducts);
 // user routes
 router.get("/picture/:username", getPicture);
 router.get("/admin/:username", getAdmin);
+router.get("/user/:username", getUser);
 
 export default router;

@@ -54,7 +54,7 @@ const Layout = () => {
                         <span className='text-white'>Hello, </span>
                         <div
                             className='text-white cursor-pointer hover:underline font-bold'
-                            onClick={() => navigate(`/profile/${username}`)}
+                            onClick={() => navigate("/profile")}
                         >
                             {username}
                         </div>
@@ -78,7 +78,7 @@ const Layout = () => {
                                 src={pictureUrl}
                                 alt='Profile Picture'
                                 className='h-8 w-8 cursor-pointer'
-                                onClick={() => navigate(`/profile/${username}`)}
+                                onClick={() => navigate("/profile")}
                             />
                         )}
                     </div>

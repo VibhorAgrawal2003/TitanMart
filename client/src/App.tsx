@@ -34,7 +34,7 @@ function App() {
                     <Route path='product/:id' element={<Product />}></Route>
 
                     {/* Profile Page */}
-                    <Route path='profile/:username' element={<Profile />}></Route>
+                    <Route path='profile' element={<Profile />}></Route>
                 </Route>
             </Routes>
         </Router>
