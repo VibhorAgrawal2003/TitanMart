@@ -7,6 +7,52 @@ dotenv.config();
 const storage = multer.memoryStorage();
 const upload = multer({ storage }).single("image");
 
+// Fetch all products from database
+export const getProducts = async (req, res) => {
+    try {
+        const supabase = getSupabase();
+
+        const { data, error } = await supabase.from("products").select("*");
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ message: "No products found" });
+        }
+
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error fetching products: ", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Fetch products by category from database
+export const getProductsByCategory = async (req, res) => {
+    try {
+        const { category } = req.params;
+
+        if (!category) {
+            return res.status(400).json({ error: "Category parameter is required" });
+        }
+
+        const supabase = getSupabase();
+
+        const { data, error } = await supabase.from("products").select("*").eq("category", category);
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ message: "No products found for this category" });
+        }
+
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error fetching products by category: ", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Add new product if admin requests
 export const addProduct = async (req, res) => {
     upload(req, res, async (err) => {
@@ -31,11 +77,29 @@ export const addProduct = async (req, res) => {
                 return res.status(401).json({ error: "User must be ADMIN to add product." });
             }
 
+            // Insert product information without image_url first
+            const { data: product_data, error: insertError } = await supabase
+                .from("products")
+                .insert({
+                    name,
+                    provider,
+                    category,
+                    cost,
+                    description,
+                    image_url: null,
+                })
+                .select("id")
+                .single();
+
+            if (insertError) throw insertError;
+
+            const productId = product_data.id;
+
             // Process the uploaded image if available
             if (req.file) {
-                const { data, error: uploadError } = await supabase.storage
+                const { data: uploadData, error: uploadError } = await supabase.storage
                     .from("items")
-                    .upload(`public/${name}-${provider}-${req.file.originalname}`, req.file.buffer, {
+                    .upload(`public/${productId}`, req.file.buffer, {
                         contentType: req.file.mimetype,
                     });
 
@@ -43,23 +107,17 @@ export const addProduct = async (req, res) => {
                     console.error("Upload Error:", uploadError.message);
                     throw uploadError;
                 }
-                image_url = `${process.env.ITEM_PATH}${data.path}`;
+
+                image_url = `${process.env.ITEM_PATH}${uploadData.path}`;
+
+                // Update the product's image_url in the database
+                const { error: updateError } = await supabase
+                    .from("products")
+                    .update({ image_url })
+                    .eq("id", productId);
+
+                if (updateError) throw updateError;
             }
-
-            console.log(username, name, provider, category, cost, description, image_url);
-
-            // Add product information
-            const product = {
-                name,
-                provider,
-                category,
-                cost,
-                description,
-                ...(image_url && { image_url }),
-            };
-
-            const { error: insertError } = await supabase.from("products").insert(product);
-            if (insertError) throw insertError;
 
             res.status(201).json({ message: "Product added successfully" });
         } catch (error) {

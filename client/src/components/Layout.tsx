@@ -22,9 +22,7 @@ const Layout = () => {
 
             try {
                 const response = await axios.get(endpoint);
-
                 setPictureUrl(response.data.picture_url);
-                console.log(response.data.picture_url);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     console.error("Axios error response data:", error.response?.data);
@@ -42,7 +40,7 @@ const Layout = () => {
     }, [username]);
 
     return (
-        <div className='min-h-screen bg-gray-100'>
+        <div className='min-h-screen bg-white'>
             {/* Navigation Bar */}
             <nav className='bg-black p-4 flex justify-between items-center'>
                 <div className='flex flex-row items-center'>
@@ -100,7 +98,7 @@ const Layout = () => {
             </nav>
 
             {/* Main Content */}
-            <main className='p-4'>
+            <main>
                 <Outlet />
             </main>
         </div>

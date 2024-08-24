@@ -36,18 +36,18 @@ app.use("/auth", authRoutes);
 app.use("/client", clientRoutes);
 
 app.get("/", (_req, res) => {
-  res.render("home");
+    res.render("home");
 });
 
 app.get("/health", (_req, res) => {
-  res.status(200).json({ status: "OK" });
+    res.status(200).json({ status: "OK" });
 });
 
 app.use((err, _req, res, _next) => {
-  console.error(err.stack);
-  res.status(500).send("Unexpected error!");
+    console.error(err.stack);
+    res.status(500).send("Unexpected error!");
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });
