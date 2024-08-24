@@ -7,13 +7,29 @@ dotenv.config();
 const storage = multer.memoryStorage();
 const upload = multer({ storage }).single("image");
 
+// Fetch a single product from database
+export const getProduct = async (req, res) => {
+    try {
+        const supabase = getSupabase();
+        const { id } = req.params;
+
+        const { data, error } = await supabase.from("products").select("*").eq("id", id);
+        if (error) throw error;
+
+        if (!data) {
+            return res.status(404).json({ message: "No product found for this id" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Fetch all products from database
 export const getProducts = async (req, res) => {
     try {
         const supabase = getSupabase();
 
         const { data, error } = await supabase.from("products").select("*");
-
         if (error) throw error;
 
         if (!data || data.length === 0) {
@@ -39,7 +55,6 @@ export const getProductsByCategory = async (req, res) => {
         const supabase = getSupabase();
 
         const { data, error } = await supabase.from("products").select("*").eq("category", category);
-
         if (error) throw error;
 
         if (!data || data.length === 0) {

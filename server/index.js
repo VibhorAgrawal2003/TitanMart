@@ -4,9 +4,11 @@ import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import { initSupabase } from "./supabaseClient.js";
 import authRoutes from "./routes/authRoutes.js";
 import clientRoutes from "./routes/clientRoutes.js";
+import publicRoutes from "./routes/publicRoutes.js";
+import { initSupabase } from "./supabaseClient.js";
+import { authenticateToken } from "./middlewares/authenticate.js";
 
 // configuration
 dotenv.config();
@@ -33,7 +35,8 @@ initSupabase(supabaseUrl, supabaseKey);
 
 // setting routes
 app.use("/auth", authRoutes);
-app.use("/client", clientRoutes);
+app.use("/client", authenticateToken, clientRoutes);
+app.use("/", publicRoutes);
 
 app.get("/", (_req, res) => {
     res.render("home");

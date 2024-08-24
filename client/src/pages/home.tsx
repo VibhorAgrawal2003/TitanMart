@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         const fetchPlushies = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_SERVER}/client/products/plushies`);
+                const response = await axios.get(`${import.meta.env.VITE_SERVER}/products/plushies`);
                 setPlushies(response.data);
                 setLoadingPlushies(false);
             } catch (err) {
@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
 
         const fetchFigures = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_SERVER}/client/products/figures`);
+                const response = await axios.get(`${import.meta.env.VITE_SERVER}/products/figures`);
                 setFigures(response.data);
                 setLoadingFigures(false);
             } catch (err) {
@@ -106,6 +106,11 @@ const HomePage: React.FC = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Footer Section */}
+            <footer className='text-center text-gray-500 py-4 mt-16'>
+                <p>© {new Date().getFullYear()} TitanMart. All Rights Reserved.</p>
+            </footer>
         </>
     );
 };

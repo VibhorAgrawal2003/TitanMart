@@ -63,10 +63,6 @@ const Admin: React.FC = () => {
     }, [isSuccessful, navigate]);
 
     return (
-        // ON PAGE LOAD, SEND GET REQUEST TO CHECK USER'S ADMIN STATUS
-        // IMMEDIATELY REDIRECT A USER IF THEY ARE NOT AN ADMIN
-        // ALSO REDIRECT USER IF THEY ARE NOT LOGGED IN
-
         <div className='auth-container p-6 max-w-4xl mx-auto'>
             <form className='admin-form m-auto text-left' onSubmit={handleSubmit}>
                 <h1>Admin Portal</h1>

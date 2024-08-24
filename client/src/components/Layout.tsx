@@ -21,7 +21,12 @@ const Layout = () => {
             const endpoint = `${import.meta.env.VITE_SERVER}/client/picture/${username}`;
 
             try {
-                const response = await axios.get(endpoint);
+                const response = await axios.get(endpoint, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
                 setPictureUrl(response.data.picture_url);
             } catch (error) {
                 if (axios.isAxiosError(error)) {

@@ -16,9 +16,15 @@ function ProfilePage() {
         const fetchUserProfile = async () => {
             try {
                 const storedUsername = sessionStorage.getItem("username");
+                const token = sessionStorage.getItem("token");
 
                 if (storedUsername) {
-                    const response = await axios.get(`${import.meta.env.VITE_SERVER}/client/user/${storedUsername}`);
+                    const response = await axios.get(`${import.meta.env.VITE_SERVER}/client/user/${storedUsername}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                    });
                     setUserProfile(response.data);
                 } else {
                     console.error("Username not found in sessionStorage");
