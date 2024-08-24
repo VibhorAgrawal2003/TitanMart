@@ -56,9 +56,9 @@ const Layout = () => {
                 </div>
                 {token ? (
                     <div className='flex space-x-2 items-center'>
-                        <span className='text-white'>Hello, </span>
+                        <span className='text-white hidden md:block'>Hello, </span>
                         <div
-                            className='text-white cursor-pointer hover:underline font-bold'
+                            className='text-white cursor-pointer hover:underline font-bold hidden md:block'
                             onClick={() => navigate("/profile")}
                         >
                             {username}
@@ -71,9 +71,17 @@ const Layout = () => {
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             />
                             {isDropdownOpen && (
-                                <ul className='absolute right-0 mt-2 bg-white border' style={{ width: "96px" }}>
+                                <ul className='absolute right-0 mt-2 bg-white border' style={{ width: "108px" }}>
                                     <li className='px-4 py-2 hover:bg-gray-100 cursor-pointer' onClick={handleLogout}>
                                         Log Out
+                                    </li>
+                                    <li
+                                        className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+                                        onClick={() => {
+                                            navigate("/cart");
+                                        }}
+                                    >
+                                        View Cart
                                     </li>
                                 </ul>
                             )}
