@@ -9,7 +9,7 @@ interface UserProfile {
     picture_url: string;
 }
 
-function ProfilePage() {
+const Profile: React.FC = () => {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
@@ -52,6 +52,6 @@ function ProfilePage() {
             </div>
         </div>
     );
-}
+};
 
-export default ProfilePage;
+export default Profile;

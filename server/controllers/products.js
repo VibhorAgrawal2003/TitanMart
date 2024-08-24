@@ -13,11 +13,13 @@ export const getProduct = async (req, res) => {
         const supabase = getSupabase();
         const { id } = req.params;
 
-        const { data, error } = await supabase.from("products").select("*").eq("id", id);
+        const { data, error } = await supabase.from("products").select("*").eq("id", id).single();
         if (error) throw error;
 
         if (!data) {
             return res.status(404).json({ message: "No product found for this id" });
+        } else {
+            res.status(200).json(data);
         }
     } catch (error) {
         res.status(500).json({ error: error.message });

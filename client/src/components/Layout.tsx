@@ -106,6 +106,11 @@ const Layout = () => {
             <main>
                 <Outlet />
             </main>
+
+            {/* Footer Section */}
+            <footer className='text-center text-gray-500 py-4 mt-16'>
+                <p>© {new Date().getFullYear()} TitanMart. All Rights Reserved.</p>
+            </footer>
         </div>
     );
 };

@@ -3,7 +3,7 @@ import axios from "axios";
 import ProductCard from "../components/ProductCard";
 
 interface Product {
-    id: string;
+    id: number;
     name: string;
     category: string;
     image_url: string;
@@ -11,7 +11,7 @@ interface Product {
     purchased_by?: Array<string>;
 }
 
-const HomePage: React.FC = () => {
+const Home: React.FC = () => {
     const [plushies, setPlushies] = useState<Product[]>([]);
     const [figures, setFigures] = useState<Product[]>([]);
     const [loadingPlushies, setLoadingPlushies] = useState<boolean>(true);
@@ -79,6 +79,7 @@ const HomePage: React.FC = () => {
                     {limitedPlushies.map((product) => (
                         <ProductCard
                             key={product.id}
+                            id={product.id}
                             name={product.name}
                             category={product.category}
                             imageUrl={product.image_url}
@@ -98,6 +99,7 @@ const HomePage: React.FC = () => {
                     {limitedFigures.map((product) => (
                         <ProductCard
                             key={product.id}
+                            id={product.id}
                             name={product.name}
                             category={product.category}
                             imageUrl={product.image_url}
@@ -106,13 +108,8 @@ const HomePage: React.FC = () => {
                     ))}
                 </div>
             </div>
-
-            {/* Footer Section */}
-            <footer className='text-center text-gray-500 py-4 mt-16'>
-                <p>© {new Date().getFullYear()} TitanMart. All Rights Reserved.</p>
-            </footer>
         </>
     );
 };
 
-export default HomePage;
+export default Home;

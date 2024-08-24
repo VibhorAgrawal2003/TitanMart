@@ -58,8 +58,6 @@ export const getPicture = async (req, res) => {
 
         if (picture_error) throw picture_error;
 
-        console.log(picture_data);
-
         if (picture_data) {
             res.status(200).json(picture_data);
         } else {
